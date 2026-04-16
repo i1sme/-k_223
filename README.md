@@ -18,7 +18,7 @@ A discussion platform built for ICT Modul 223. Users can post short messages, co
 
 ```bash
 git clone <repository-url>
-cd k_223
+cd uek_223
 docker compose up
 ```
 
@@ -85,5 +85,4 @@ k_223/
 ## Docs
 
 - `docs/erm.png` — Entity Relationship Model (crow's foot notation)
-- `docs/uml-class.png` — UML class diagram
 - `docs/testprotokoll.md` — Test cases and results
