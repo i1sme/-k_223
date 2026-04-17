@@ -196,8 +196,39 @@
 
 ---
 
+## Automatisierte Unit-Tests
+
+**Framework:** Jest 29 + ts-jest  
+**Datei:** `backend/src/service/__tests__/UserService.updateUsername.test.ts`  
+**Ausführen:** `npm test` im Verzeichnis `backend/`  
+**Getestete Methode:** `UserService.updateProfile()` — ausschliesslich der Username-Zweig
+
+Die Datenbank wird vollständig durch Jest-Mocks ersetzt (`AppDataSource.getRepository`), sodass kein laufender Docker-Container benötigt wird.
+
+| # | Beschreibung | Erwartetes Verhalten |
+|---|---|---|
+| UT-01 | Gültiger neuer Username | Gibt `{ id, username, role }` zurück; `save()` wird mit neuem Username aufgerufen |
+| UT-02 | Username mit Leerzeichen am Rand | Leerzeichen werden getrimmt; gespeicherter Wert enthält keine Whitespace |
+| UT-03 | Username identisch mit aktuellem | Kein Fehler; `save()` wird aufgerufen |
+| UT-04 | Username kürzer als 3 Zeichen (Typ) | Wirft `ValidationError` |
+| UT-05 | Username kürzer als 3 Zeichen (Meldung) | Fehlermeldung: „Username must be at least 3 characters" |
+| UT-06 | Username länger als 50 Zeichen (Typ) | Wirft `ValidationError` |
+| UT-07 | Username länger als 50 Zeichen (Meldung) | Fehlermeldung: „Username must not exceed 50 characters" |
+| UT-08 | Username bereits von anderem User vergeben | Fehlermeldung: „Username is already taken" |
+| UT-09 | User-ID existiert nicht (Typ) | Wirft `NotFoundError` |
+| UT-10 | User-ID existiert nicht (Meldung) | Fehlermeldung: „User not found" |
+| UT-11 | `dto.username` ist `undefined` | Username bleibt unverändert; `save()` wird trotzdem aufgerufen |
+
+---
+
 ## Zusammenfassung
 
+### Manuelle Tests
 | Gesamt | Bestanden | Fehlgeschlagen | Nicht ausgeführt |
 |--------|-----------|----------------|------------------|
-| 17 | 17| | |
+| 17 | 17 | – | – |
+
+### Automatisierte Unit-Tests
+| Gesamt | Bestanden | Fehlgeschlagen | Nicht ausgeführt |
+|--------|-----------|----------------|------------------|
+| 11 | – | – | 11 (noch nicht ausgeführt) |
